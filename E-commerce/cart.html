@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <title>H & M| Ecommerce Website Design</title>
+    <link rel="stylesheet" href="Style.css">
+    <link href="https://fonts.googleapis.com/css2?
+    family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="header">
+    <div class="container"> 
+        <div class="navbar">
+            <div class="logo">
+                <img src="images/logo.png" width="150px">
+            </div> 
+            <nav>
+                <div id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <li><a href="Index.html">Home</a></li>
+                    <li><a href="Products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </div>
+                <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; </span>  
+            </nav>
+        </div>    
+        
+        
+        <div id="alerts"></div>
+            <div class="productcont">
+             <break>
+             <div class="product">
+                 <h3 class="productname">Yoga Tights</h3>
+                 <p class="price">$50.00</p>
+                 <button class="addtocart">Add To Cart</button>
+             </div>
+             <div class="product">
+                 <h3 class="productname">Mens Chino Shorts</h3>
+                 <p class="price">$55.00</p>
+                 <button class="addtocart">Add To Cart</button>
+             </div>
+             <div class="product">
+                 <h3 class="productname">Black Half-sleeves Shirt</h3>
+                 <p class="price">$60.00</p>
+                 <button class="addtocart">Add To Cart</button>
+             </div>
+            </break>
+            <break>
+             <div class="product">
+                <h3 class="productname">V-neck Shirt</h3>
+                <p class="price">$65.00</p>
+                <button class="addtocart">Add To Cart</button>
+            </div>
+            <div class="product">
+                <h3 class="productname">Jeans PETITE Indigo</h3>
+                <p class="price">$70.00</p>
+                <button class="addtocart">Add To Cart</button>
+            </div>
+            <div class="product">
+                <h3 class="productname">Salwar Long Gown</h3>
+                <p class="price">$75.00</p>
+                <button class="addtocart">Add To Cart</button>
+            </div>
+            </break>
+            <break>
+                <div class="product">
+                    <h3 class="productname">Skinny Jeans</h3>
+                    <p class="price">$80.00</p>
+                    <button class="addtocart">Add To Cart</button>
+                </div>
+                <div class="product">
+                    <h3 class="productname">Blue-Printed Shirt</h3>
+                    <p class="price">$85.00</p>
+                    <button class="addtocart">Add To Cart</button>
+                </div>
+                <div class="product">
+                    <h3 class="productname">Long sleeved T-Shirt</h3>
+                    <p class="price">$90.00</p>
+                    <button class="addtocart">Add To Cart</button>
+                </div>
+            </break>
+            <break>
+                <div class="product">
+                    <h3 class="productname">Black green T-Shirt</h3>
+                    <p class="price">$95.00</p>
+                    <button class="addtocart">Add To Cart</button>
+                </div>
+                <div class="product">
+                    <h3 class="productname">Satin Shirt Dress</h3>
+                    <p class="price">$100.00</p>
+                    <button class="addtocart">Add To Cart</button>
+                </div>
+                <div class="product">
+                    <h3 class="productname">Cold Shoulder Top</h3>
+                    <p class="price">$105.00</p>
+                    <button class="addtocart">Add To Cart</button>
+                </div>
+            </break>
+            
+            </div>
+            <div class="cart-container">
+               <h2>Cart</h2>
+               <table>
+                 <thead>
+                   <tr>
+                   <th><strong>Product</strong></th>
+                   <th><strong>Price</strong></th>
+                 </tr>
+                 </thead>
+                 <tbody id="carttable">
+                 </tbody>
+               </table>
+               <hr>
+               <table id="carttotals">
+                 <tr>
+                   <td><strong>Items</strong></td>
+                   <td><strong>Total</strong></td>
+                 </tr>
+                 <tr>
+                   <td>x <span id="itemsquantity">0</span></td>
+                  
+                   <td>$<span id="total">0</span></td>
+                 </tr></table>
+     
+                 
+               <div class="cart-buttons">  
+                 <button id="emptycart">Empty Cart</button>
+                 <button id="checkout">Checkout</button>
+               </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        /* get cart total from session on load */
+updateCartTotal();
+
+/* button event listeners */
+document.getElementById("emptycart").addEventListener("click", emptyCart);
+var btns = document.getElementsByClassName('addtocart');
+for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function() {addToCart(this);});
+}
+
+/* ADD TO CART functions */
+
+function addToCart(elem) {
+    //init
+    var sibs = [];
+    var getprice;
+    var getproductName;
+    var cart = [];
+     var stringCart;
+    //cycles siblings for product info near the add button
+    while(elem = elem.previousSibling) {
+        if (elem.nodeType === 3) continue; // text node
+        if(elem.className == "price"){
+            getprice = elem.innerText;
+        }
+        if (elem.className == "productname") {
+            getproductName = elem.innerText;
+        }
+        sibs.push(elem);
+    }
+    //create product object
+    var product = {
+        productname : getproductName,
+        price : getprice
+    };
+    //convert product data to JSON for storage
+    var stringProduct = JSON.stringify(product);
+    /*send product data to session storage */
+    
+    if(!sessionStorage.getItem('cart')){
+        //append product JSON object to cart array
+        cart.push(stringProduct);
+        //cart to JSON
+        stringCart = JSON.stringify(cart);
+        //create session storage cart item
+        sessionStorage.setItem('cart', stringCart);
+        addedToCart(getproductName);
+        updateCartTotal();
+    }
+    else {
+        //get existing cart data from storage and convert back into array
+       cart = JSON.parse(sessionStorage.getItem('cart'));
+        //append new product JSON object
+        cart.push(stringProduct);
+        //cart back to JSON
+        stringCart = JSON.stringify(cart);
+        //overwrite cart data in sessionstorage 
+        sessionStorage.setItem('cart', stringCart);
+        addedToCart(getproductName);
+        updateCartTotal();
+    }
+}
+/* Calculate Cart Total */
+function updateCartTotal(){
+    //init
+    var total = 0;
+    var price = 0;
+    var items = 0;
+    var productname = "";
+    var carttable = "";
+    if(sessionStorage.getItem('cart')) {
+        //get cart data & parse to array
+        var cart = JSON.parse(sessionStorage.getItem('cart'));
+        //get no of items in cart 
+        items = cart.length;
+        //loop over cart array
+        for (var i = 0; i < items; i++){
+            //convert each JSON product in array back into object
+            var x = JSON.parse(cart[i]);
+            //get property value of price
+            price = parseFloat(x.price.split('$')[1]);
+            productname = x.productname;
+            //add price to total
+            carttable += "<tr><td>" + productname + "</td><td>$" + price.toFixed(2) + "</td></tr>";
+            total += price;
+        }
+        
+    }
+    //update total on website HTML
+    document.getElementById("total").innerHTML = total.toFixed(2);
+    //insert saved products to cart table
+    document.getElementById("carttable").innerHTML = carttable;
+    //update items in cart on website HTML
+    document.getElementById("itemsquantity").innerHTML = items;
+}
+//user feedback on successful add
+function addedToCart(pname) {
+  var message = pname + " was added to the cart";
+  var alerts = document.getElementById("alerts");
+  alerts.innerHTML = message;
+  if(!alerts.classList.contains("message")){
+     alerts.classList.add("message");
+  }
+}
+/* User Manually empty cart */
+function emptyCart() {
+    //remove cart session storage object & refresh cart totals
+    if(sessionStorage.getItem('cart')){
+        sessionStorage.removeItem('cart');
+        updateCartTotal();
+      //clear message and remove class style
+      var alerts = document.getElementById("alerts");
+      alerts.innerHTML = "";
+      if(alerts.classList.contains("message")){
+          alerts.classList.remove("message");
+      }
+    }
+}
+
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+
+
+    </script>
+</body>
+</html>
